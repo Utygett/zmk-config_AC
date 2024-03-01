@@ -94,8 +94,8 @@
 //                            '--------+---------+---------'       '-------+---------+---------'
                         bindings = <
      &trans   &trans     &kp HOME  &kp UP   &kp END   &kp PG_UP     &trans    &trans   &trans    &trans     &trans    &trans
-     &kp LSHFT &kp TAB   &kp LEFT  &kp DOWN &kp RIGHT &kp PG_DN     &trans    &trans   &trans    &trans     &trans    &LSHFT
-     &kp LCTRL &trans    &trans    &trans   &trans    &trans        &trans    &trans   &trans    &trans     &trans    &LCTRL
+     &kp LSHFT &kp TAB   &kp LEFT  &kp DOWN &kp RIGHT &kp PG_DN     &trans    &trans   &trans    &trans     &trans    &kp LSHFT
+     &kp LCTRL &trans    &trans    &trans   &trans    &trans        &trans    &trans   &trans    &trans     &trans    &kp LCTRL
                          &kp LALT  &mo RSE  &kp SPACE               &kp ENTER  &trans    &trans
                         >;
                 };
