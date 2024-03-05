@@ -86,17 +86,17 @@
 // .-------------------------------------------------------.       .-----------------------------------------------------------.
 // |       |         |  HOME  |   UP   |    END  |  PG UP  |       |   -   |    >    |         |         |          |          |
 // |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// | SHFT  |   TAB   |  LEFT  |  DOWN  |  RIGHT  |  PG DW  |       |   =   |         |         |         |          |   SHFT   |
+// | SHFT  |   TAB   |  LEFT  |  DOWN  |  RIGHT  |  PG DW  |       |   =   |    _    |         |         |          |   SHFT   |
 // |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// | CTRL  |         |        |        |         |         |       |       |         |         |         |          |   CTRL   |
+// | CTRL  |         |        |        |         |         |       |  DEL  |         |         |         |          |   CTRL   |
 // '--------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
 //                            |  ALT   |   RSE   |   SPC   |       |  RET  |         |         |
 //                            '--------+---------+---------'       '-------+---------+---------'
                         bindings = <
-     &trans   &trans     &kp HOME  &kp UP   &kp END   &kp PG_UP     &kp MINUS &kp GT   &trans    &trans     &trans    &trans
-     &kp LSHFT &kp TAB   &kp LEFT  &kp DOWN &kp RIGHT &kp PG_DN     &kp EQUAL &trans   &trans    &trans     &trans    &kp LSHFT
-     &kp LCTRL &trans    &trans    &trans   &trans    &trans        &trans    &trans   &trans    &trans     &trans    &kp LCTRL
-                         &kp LALT  &mo RSE  &kp SPACE               &kp ENTER  &trans    &trans
+     &trans   &trans     &kp HOME  &kp UP   &kp END   &kp PG_UP     &kp MINUS &kp GT    &trans    &trans     &trans    &trans
+     &kp LSHFT &kp TAB   &kp LEFT  &kp DOWN &kp RIGHT &kp PG_DN     &kp EQUAL &kp UNDER &trans    &trans     &trans    &kp LSHFT
+     &kp LCTRL &trans    &trans    &trans   &trans    &trans        &kp DEL   &trans    &trans    &trans     &trans    &kp LCTRL
+                         &kp LALT  &mo RSE  &kp SPACE               &kp ENTER &trans    &trans
                         >;
                 };
   
