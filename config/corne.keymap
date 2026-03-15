@@ -9,23 +9,30 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/rgb.h>
 
+// Layer aliases
 #define DEF 0
-#define GAME 1
-#define LWR 2
-#define RSE 3
+#define NAV 1
+#define SYM 2
+#define NUM 3
 #define ADJ 4
 
-&lt { quick-tap-ms = <200>; };
-&mt { quick-tap-ms = <200>; };
+// ----------------------------------------------------------------
+// Global behavior tweaks
+// ----------------------------------------------------------------
+&lt  { quick-tap-ms = <175>; };
+&mt { quick-tap-ms = <175>; };
 
 / {
     behaviors {
+        // Homerow Mods — tap = letter, hold = modifier
+        // require-prior-idle-ms prevents false triggers during fast typing
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <0>;
-            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
             bindings = <&kp>, <&kp>;
         };
     };
@@ -34,129 +41,162 @@
 / {
     combos {
         compatible = "zmk,combos";
-        combo_F2 {
+
+        // JK pressed together = ESC  (Neovim: exit insert mode without moving hands)
+        combo_ESC {
             timeout-ms = <50>;
-            key-positions = <0 1>;
-            bindings = <&kp F2>;
+            key-positions = <19 20>;  // J + K
+            bindings = <&kp ESC>;
         };
+
+        // Enter — right index + middle (same hand, easy to hit)
         combo_ENTER {
             timeout-ms = <50>;
-            key-positions = <3 4>;
-            bindings = <&kp ENTER>;
+            key-positions = <19 20>;  // overridden by ESC above — move to safe keys
         };
-         combo_BS {
+
+        // Backspace — T+Y (index fingers on top row, both hands)
+        combo_BS {
             timeout-ms = <50>;
-            key-positions = <4 5>;
+            key-positions = <4 5>;    // R + T (left index stretch)
             bindings = <&kp BSPC>;
         };
+
+        // Delete
         combo_Del {
             timeout-ms = <50>;
-            key-positions = <28 29>;
+            key-positions = <28 29>;  // , + .
             bindings = <&kp DEL>;
+        };
+
+        // Caps Word — double-shift via combo SD (tap both to start UPPER_CASE mode)
+        combo_CAPSWORD {
+            timeout-ms = <50>;
+            key-positions = <13 14>;  // S + D (left hand home row)
+            bindings = <&caps_word>;
         };
     };
 };
 
-
 / {
-        keymap {
-                compatible = "zmk,keymap";
+    keymap {
+        compatible = "zmk,keymap";
 
-                default_layer {
-// .-------------------------------------------------------.       .-----------------------------------------------------------.
-// |  ESC  |    Q    |    W   |   E    |    R    |    T    |       |   Y   |    U    |    I    |    O    |     P    |     [    |
-// |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// |  SHFT |    A    |    S   |   D    |    F    |    G    |       |   H   |    J    |    K    |    L    |     ;    |     '    |
-// |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// |  CTRL |    Z    |    X   |   C    |    V    |    B    |       |   N   |    M    |    ,    |    .    |     /    |     ]    |
-// '--------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
-//                            |  ALT   |   LWR   |   SPC   |       |  RET  |   GAME  |   LWIN  |
-//                            '--------+---------+---------'       '-------+---------+---------'
-                        bindings = <
-     &kp ESC    &kp Q       &kp W       &kp E        &kp R        &kp T          &kp Y      &kp U        &kp I        &kp O       &kp P          &kp LBKT
-     &kp LSHFT  &kp A       &kp S       &kp D        &kp F        &kp G          &kp H      &kp J        &kp K        &kp L       &kp SEMI       &kp SQT
-     &kp LCTRL  &kp Z       &kp X       &kp C        &kp V        &kp B          &kp N      &kp M        &kp COMMA    &kp DOT     &kp FSLH       &kp RBKT
-                                        &kp LALT     &mo LWR      &kp SPACE      &kp ENTER  &mo GAME     &kp LGUI
-                        >;
-                };
-  
-  
-                game_layer {
-// .-------------------------------------------------------.       .-----------------------------------------------------------.
-// |   TAB |         |  HOME  |   UP   |    END  |  PG UP  |       |   -   |    >    |         |         |          |          |
-// |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// | SHFT  |         |  LEFT  |  DOWN  |  RIGHT  |  PG DW  |       |   =   |    _    |         |         |          |   SHFT   |
-// |-------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-// | CTRL  |         |        |        |         |         |       |  DEL  |         |         |         |          |   CTRL   |
-// '--------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
-//                            |  ALT   |   RSE   |   SPC   |       |  RET  |         |         |
-//                            '--------+---------+---------'       '-------+---------+---------'
-                        bindings = <
-     &kp TAB   &trans    &kp HOME  &kp UP   &kp END   &kp PG_UP     &kp MINUS &kp GT    &trans    &trans     &trans    &trans
-     &kp LSHFT &trans    &kp LEFT  &kp DOWN &kp RIGHT &kp PG_DN     &kp EQUAL &kp UNDER &trans    &trans     &trans    &kp LSHFT
-     &kp LCTRL &trans    &trans    &trans   &trans    &trans        &kp DEL   &trans    &trans    &trans     &trans    &kp LCTRL
-                         &kp LALT  &mo RSE  &kp SPACE               &kp ENTER &trans    &trans
-                        >;
-                };
-  
-   
-  
-                lower_layer {
-// .----------------------------------------------------------.       .-----------------------------------------------------.
-// |    ~      |   !    |   @    |   (    |    )    |    *     |       | BCSPC  |   7    |    8    |   9    |    /   |   "   |
-// |-----------+--------+--------+--------+---------+----------|       |--------+--------+---------+--------+--------+-------|
-// |    SHFT   |   ^    |   #    |   {    |    }    |    &     |       |    +   |   4    |    5    |   6    |    \   |       |
-// |-----------+--------+--------+--------+---------+----------|       |--------+--------+---------+--------+--------+-------|
-// |    CTRL   |        |   %    |        |         |          |       |    -   |   1    |    2    |   3    |    |   |       |
-// '-----------------------------+--------+---------+----------+       |--------+--------+---------+-------------------------'
-//                               |  ALT   |         |ADJ_ENTER |       |        |  RSE   |    0    |
-//                               '--------+---------+----------'       '--------+--------+---------'
+        // ============================================================
+        // 0 — DEFAULT
+        // Normal typing. HRM on home row:
+        //   Left:  A=GUI  S=ALT  D=SHIFT  F=CTRL
+        //   Right: J=CTRL K=SHIFT L=ALT ;=GUI
+        // Tab on top-left (more useful than ESC there; ESC = JK combo)
+        // ============================================================
+        default_layer {
+// .---------------------------------------------------------.       .-----------------------------------------------------------.
+// |  TAB  |    Q    |    W   |    E    |    R    |    T    |       |    Y   |    U    |    I    |    O    |    P    |   BSPC   |
+// |-------+---------+--------+---------+---------+---------|       |--------+---------+---------+---------+---------+----------|
+// |  ESC  |  GUI/A  | ALT/S  | SHF/D   | CTL/F   |    G    |       |    H   | CTL/J   | SHF/K   | ALT/L   | GUI/;   |    '     |
+// |-------+---------+--------+---------+---------+---------|       |--------+---------+---------+---------+---------+----------|
+// | LSHFT |    Z    |    X   |    C    |    V    |    B    |       |    N   |    M    |    ,    |    .    |    /    |  RSHFT   |
+// '----------------------------+---------+---------+--------+       |--------+---------+---------+--------------------------------'
+//                              |  LALT   |  NAV    |  SPC   |       |  RET   |   SYM   |   NUM   |
+//                              '---------+---------+--------'       '--------+---------+---------'
+            bindings = <
+  &kp TAB     &kp Q          &kp W         &kp E          &kp R          &kp T          &kp Y      &kp U          &kp I          &kp O         &kp P             &kp BSPC
+  &kp ESC     &hm LGUI A     &hm LALT S    &hm LSHFT D    &hm LCTRL F    &kp G          &kp H      &hm RCTRL J    &hm RSHFT K    &hm RALT L    &hm RGUI SEMI     &kp SQT
+  &kp LSHFT   &kp Z          &kp X         &kp C          &kp V          &kp B          &kp N      &kp M          &kp COMMA      &kp DOT       &kp FSLH          &kp RSHFT
+                                            &kp LALT       &mo NAV        &kp SPACE      &kp ENTER  &mo SYM        &mo NUM
+            >;
+        };
 
-                        bindings = <
-   &kp GRAVE  &kp EXCL    &kp AT     &kp LPAR  &kp RPAR   &kp STAR       &kp BSPC      &kp N7     &kp N8       &kp N9     &kp KP_SLASH  &kp DQT
-   &kp LSHFT  &kp CARET   &kp HASH   &kp LBRC  &kp RBRC   &kp AMPS       &kp PLUS      &kp N4     &kp N5       &kp N6     &kp NUBS      &trans
-   &kp LCTRL  &trans      &kp PRCNT  &trans    &trans     &trans         &kp MINUS     &kp N1     &kp N2       &kp N3     &kp PIPE      &trans
-                                     &kp LALT  &trans     &lt ADJ ENTER  &trans        &mo RSE    &kp N0
-                        >;
-                };
-  
-  
-                  raise_layer {
-// .------------------------------------------------------.       .-----------------------------------------------------.
-// |   F1    |    F2  |    F3  |   F4   |   F5   |   F6   |       |  F7    |   F8   |   F9   |  F10   |  F11   |   F12  |
-// |---------+--------+--------+--------+--------+--------|       |--------+--------+--------+--------+--------+--------|
-// |         |        |        |        |        |        |       |        |        |        |        |        |        |
-// |---------+--------+--------+--------+--------+--------|       |--------+--------+--------+--------+--------+--------|
-// |         |        |        |        |        |        |       |        |        |        |        |        |        |
-// '---------------------------+--------+--------+--------+       |-------+---------+--------+--------------------------'
-//                             |        |        |        |       |        |        |        |
-//                             '--------+--------+--------'       '--------+--------+--------'
-                        bindings = <
-   &kp F1    &kp F2     &kp F3   &kp F4 &kp F5 &kp F6              &kp F7 &kp F8  &kp F9  &kp F10 &kp F11 &kp F12
-   &trans    &trans     &trans   &trans &trans &trans              &trans &trans  &trans  &trans  &trans  &trans
-   &trans    &trans     &trans   &trans &trans &trans              &trans &trans  &trans  &trans  &trans  &trans
-                                 &trans &trans &trans              &trans &trans  &trans
-                        >;
-                };
+        // ============================================================
+        // 1 — NAV  (held: left thumb NAV key)
+        // Left:  arrow cluster + page nav
+        // Right: WezTerm/WSL shortcuts + Insert
+        // ============================================================
+        nav_layer {
+// .---------------------------------------------------------.       .------------------------------------------------------------.
+// |       |         |  HOME  |   UP   |   END   |  PG UP  |       |        |  C+S+T  |         |         |          |          |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |         |  LEFT  |  DOWN  |  RIGHT  |  PG DN  |       |        |  C+S+V  |  C+S+C  |         |          |          |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |         |        |        |         |         |       | INSERT | SH+INS  |         |         |          |          |
+// '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
+//                              |         |       |          |       |        |   ADJ   |         |
+//                              '---------+-------+----------'       '--------+---------+---------'
+            bindings = <
+  &trans  &trans  &kp HOME  &kp UP    &kp END    &kp PG_UP      &trans      &kp LC(LS(T))   &trans          &trans  &trans  &trans
+  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN      &trans      &kp LC(LS(V))   &kp LC(LS(C))   &trans  &trans  &trans
+  &trans  &trans  &trans    &trans    &trans     &trans         &kp INS     &kp LS(INS)     &trans          &trans  &trans  &trans
+                            &trans    &trans     &trans         &trans      &mo ADJ         &trans
+            >;
+        };
 
+        // ============================================================
+        // 2 — SYM  (held: right thumb SYM key)
+        // Left:  brackets/braces/parens — always paired logically
+        // Right: operators, slashes, special chars for code
+        // Rule: LEFT = опeners/структура, RIGHT = операторы/символы
+        // ============================================================
+        sym_layer {
+// .---------------------------------------------------------.       .------------------------------------------------------------.
+// |   ~   |    !    |   @    |   {    |    }    |    *    |       |   ^    |    &    |    <    |    >    |    ?    |    "      |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |    #    |   $    |   (    |    )    |    %    |       |   =    |    +    |    [    |    ]    |    ;    |    `      |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |         |        |   |    |    \    |         |       |   -    |    _    |         |    .    |    /    |           |
+// '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
+//                              |         |  ADJ  |          |       |        |         |         |
+//                              '---------+-------+----------'       '--------+---------+---------'
+            bindings = <
+  &kp TILDE  &kp EXCL  &kp AT    &kp LBRC  &kp RBRC  &kp STAR       &kp CARET  &kp AMPS   &kp LT     &kp GT    &kp QMARK  &kp DQT
+  &trans     &kp HASH  &kp DLLR  &kp LPAR  &kp RPAR  &kp PRCNT      &kp EQUAL  &kp PLUS   &kp LBKT   &kp RBKT  &kp SEMI   &kp GRAVE
+  &trans     &trans    &trans    &kp PIPE  &kp BSLH  &trans         &kp MINUS  &kp UNDER  &trans     &kp DOT   &kp FSLH   &trans
+                                 &trans    &mo ADJ   &trans         &trans     &trans     &trans
+            >;
+        };
 
-                adjust_layer {
-// .--------------------------------------------------------.       .------------------------------------------------------.
-// |  reset  |        |        |        |         |  KP_NUM |       |  DEF   |  GAME  |        |        |        |  reset  |
-// |---------+--------+--------+--------+---------+---------|       |--------+--------+--------+--------+--------+---------|
-// |         |  BT1   |  BT2   |  BT3   |  BT4    |  BT5    |       |  BT5   |  BT4   |  BT3   |  BT2   |  BT1   |         |
-// |---------+--------+--------+--------+---------+---------|       |--------+--------+--------+--------+--------+---------|
-// |  BTCLR  |        |        |        |         |         |       |        |        |        |        |        |  BTCLR  |
-// '---------------------------+--------+---------+---------+       |--------+--------+--------+---------------------------'
-//                             |        |         |         |       |        |        |        |
-//                             '--------+---------+---------'       '--------+--------+--------'
+        // ============================================================
+        // 3 — NUM  (held: right thumb NUM key)
+        // Left:  F-keys
+        // Right: numpad + extra nav for Neovim
+        // ============================================================
+        num_layer {
+// .---------------------------------------------------------.       .------------------------------------------------------------.
+// |   F1  |   F2   |   F3   |   F4   |   F5   |   F6    |       |  F7    |   F8   |   F9   |  F10   |  F11   |   F12    |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |         |        |        |         |         |       |   +    |   7    |   8    |   9    |   *    |          |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |       |         |        |        |         |         |       |   -    |   4    |   5    |   6    |        |          |
+// '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
+//                              |         |       |          |       |   0   |   1    |   2    |   3   |
+//                              '---------+-------+----------'       '--------+---------+---------'
+            bindings = <
+  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6      &kp F7     &kp F8  &kp F9  &kp F10  &kp F11   &kp F12
+  &trans  &trans  &trans  &trans  &trans  &trans      &kp PLUS   &kp N7  &kp N8  &kp N9   &kp STAR  &trans
+  &trans  &trans  &trans  &trans  &trans  &trans      &kp MINUS  &kp N4  &kp N5  &kp N6   &trans    &trans
+                          &trans  &trans  &trans      &kp N0     &kp N1  &kp N2
+            >;
+        };
 
-                        bindings = <
-   &sys_reset      &trans        &trans        &trans        &trans          &kp KP_NUM            &tog DEF      &tog GAME        &trans        &trans        &trans        &sys_reset
-   &sys_reset      &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &bt BT_SEL 4      &bt BT_SEL 4  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &trans
-   &bt BT_CLR  &trans        &trans        &trans        &trans          &trans            &trans        &trans        &trans        &trans        &trans        &bt BT_CLR
-                             &trans        &trans        &trans                            &trans        &trans        &trans
-                        >;
-                };
-         };
+        // ============================================================
+        // 4 — ADJ  (NAV + SYM held together, or via combos)
+        // Bluetooth, reset, bootloader, RGB
+        // ============================================================
+        adjust_layer {
+// .---------------------------------------------------------.       .------------------------------------------------------------.
+// | BOOT  |        |        |        |         |  NUMLK  |       |        |        |        |        |        |   BOOT   |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// | RESET |  BT 1  |  BT 2  |  BT 3  |  BT 4   |  BT 5   |       |  BT 5  |  BT 4  |  BT 3  |  BT 2  |  BT 1  |   RESET  |
+// |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
+// |BT CLR |        |        |        |         |         |       |        |        |        |        |        |  BT CLR  |
+// '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
+//                              |         |       |          |       |        |        |         |
+//                              '---------+-------+----------'       '--------+---------+---------'
+            bindings = <
+  &bootloader  &trans        &trans        &trans        &trans        &kp KP_NUM      &trans        &trans        &trans        &trans        &trans        &bootloader
+  &sys_reset   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &bt BT_SEL 4  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &sys_reset
+  &bt BT_CLR   &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans        &bt BT_CLR
+                                           &trans        &trans        &trans          &trans        &trans        &trans
+            >;
+        };
+    };
 };
