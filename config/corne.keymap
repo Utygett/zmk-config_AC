@@ -42,37 +42,31 @@
     combos {
         compatible = "zmk,combos";
 
-        // JK pressed together = ESC  (Neovim: exit insert mode without moving hands)
+        // JK pressed together = ESC (Neovim: exit insert mode without moving hands)
         combo_ESC {
             timeout-ms = <50>;
-            key-positions = <19 20>;  // J + K
+            key-positions = <19 20>;
             bindings = <&kp ESC>;
         };
 
-        // Enter — right index + middle (same hand, easy to hit)
-        combo_ENTER {
-            timeout-ms = <50>;
-            key-positions = <19 20>;  // overridden by ESC above — move to safe keys
-        };
-
-        // Backspace — T+Y (index fingers on top row, both hands)
+        // Backspace — R+T (left index stretch, top row)
         combo_BS {
             timeout-ms = <50>;
-            key-positions = <4 5>;    // R + T (left index stretch)
+            key-positions = <4 5>;
             bindings = <&kp BSPC>;
         };
 
-        // Delete
+        // Delete — , + .
         combo_Del {
             timeout-ms = <50>;
-            key-positions = <28 29>;  // , + .
+            key-positions = <28 29>;
             bindings = <&kp DEL>;
         };
 
-        // Caps Word — double-shift via combo SD (tap both to start UPPER_CASE mode)
+        // Caps Word — SD combo (left hand home row)
         combo_CAPSWORD {
             timeout-ms = <50>;
-            key-positions = <13 14>;  // S + D (left hand home row)
+            key-positions = <13 14>;
             bindings = <&caps_word>;
         };
     };
@@ -87,7 +81,7 @@
         // Normal typing. HRM on home row:
         //   Left:  A=GUI  S=ALT  D=SHIFT  F=CTRL
         //   Right: J=CTRL K=SHIFT L=ALT ;=GUI
-        // Tab on top-left (more useful than ESC there; ESC = JK combo)
+        // Tab on top-left (ESC = JK combo)
         // ============================================================
         default_layer {
 // .---------------------------------------------------------.       .-----------------------------------------------------------.
@@ -132,9 +126,9 @@
 
         // ============================================================
         // 2 — SYM  (held: right thumb SYM key)
-        // Left:  brackets/braces/parens — always paired logically
+        // Left:  brackets/braces/parens
         // Right: operators, slashes, special chars for code
-        // Rule: LEFT = опeners/структура, RIGHT = операторы/символы
+        // Rule: LEFT = скобки, RIGHT = операторы
         // ============================================================
         sym_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
@@ -157,7 +151,7 @@
         // ============================================================
         // 3 — NUM  (held: right thumb NUM key)
         // Left:  F-keys
-        // Right: numpad + extra nav for Neovim
+        // Right: numpad layout
         // ============================================================
         num_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
@@ -167,7 +161,7 @@
 // |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
 // |       |         |        |        |         |         |       |   -    |   4    |   5    |   6    |        |          |
 // '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
-//                              |         |       |          |       |   0   |   1    |   2    |   3   |
+//                              |         |       |          |       |   0   |   1    |   2    |
 //                              '---------+-------+----------'       '--------+---------+---------'
             bindings = <
   &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6      &kp F7     &kp F8  &kp F9  &kp F10  &kp F11   &kp F12
@@ -178,8 +172,8 @@
         };
 
         // ============================================================
-        // 4 — ADJ  (NAV + SYM held together, or via combos)
-        // Bluetooth, reset, bootloader, RGB
+        // 4 — ADJ  (NAV + SYM held together)
+        // Bluetooth, reset, bootloader
         // ============================================================
         adjust_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
