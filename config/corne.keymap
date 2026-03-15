@@ -45,28 +45,28 @@
     combos {
         compatible = "zmk,combos";
 
-        // J+K = ESC (pos 19+20, правая рука home row)
+        // J+K = ESC (pos 19+20)
         combo_ESC {
             timeout-ms = <50>;
             key-positions = <19 20>;
             bindings = <&kp ESC>;
         };
 
-        // R+T = Backspace (pos 4+5, левая рука верхний ряд)
+        // R+T = Backspace (pos 4+5)
         combo_BS {
             timeout-ms = <50>;
             key-positions = <4 5>;
             bindings = <&kp BSPC>;
         };
 
-        // , + . = Delete (pos 32+33, правая рука нижний ряд)
+        // , + . = Delete (pos 32+33)
         combo_Del {
             timeout-ms = <50>;
             key-positions = <32 33>;
             bindings = <&kp DEL>;
         };
 
-        // F+J = Caps Word (pos 16+19, оба указательных пальца)
+        // F+J = Caps Word (pos 16+19)
         combo_CAPSWORD {
             timeout-ms = <60>;
             key-positions = <16 19>;
@@ -79,12 +79,6 @@
     keymap {
         compatible = "zmk,keymap";
 
-        // ============================================================
-        // 0 — DEFAULT
-        // HRM на home row:
-        //   Левая:  A=GUI  S=ALT  D=SHIFT  F=CTRL
-        //   Правая: J=CTRL K=SHIFT L=ALT ;=GUI
-        // ============================================================
         default_layer {
 // .---------------------------------------------------------.       .-----------------------------------------------------------.
 // |  TAB  |    Q    |    W   |    E    |    R    |    T    |       |    Y   |    U    |    I    |    O    |    P    |   BSPC   |
@@ -103,11 +97,6 @@
             >;
         };
 
-        // ============================================================
-        // 1 — NAV
-        // Левая: стрелки + страницы
-        // Правая: WezTerm/WSL шорткаты + Insert
-        // ============================================================
         nav_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
 // |   `   |         |  HOME  |   UP   |   END   |  PG UP  |       |        |  C+S+T  |         |         |          |          |
@@ -119,19 +108,13 @@
 //                              |         |       |          |       |        |   ADJ   |         |
 //                              '---------+-------+----------'       '--------+---------+---------'
             bindings = <
-  &kp GRAVE  &trans  &kp HOME  &kp UP    &kp END    &kp PG_UP      &trans      &kp LC(LS(T))   &trans          &trans  &trans  &trans
-  &trans     &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN      &trans      &kp LC(LS(V))   &kp LC(LS(C))   &trans  &trans  &trans
-  &trans     &trans  &trans    &trans    &trans     &trans         &kp INS     &kp LS(INS)     &trans          &trans  &trans  &trans
-                               &trans    &trans     &trans         &trans      &mo ADJ         &trans
+  &kp GRAVE  &trans  &kp HOME  &kp UP    &kp END    &kp PG_UP      &trans   &kp LC(LS(T))  &trans         &trans  &trans  &trans
+  &trans     &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN      &trans   &kp LC(LS(V))  &kp LC(LS(C))  &trans  &trans  &trans
+  &trans     &trans  &trans    &trans    &trans     &trans         &kp INS  &kp LS(INS)    &trans         &trans  &trans  &trans
+                               &trans    &trans     &trans         &trans   &mo ADJ        &trans
             >;
         };
 
-        // ============================================================
-        // 2 — SYM
-        // Левая = скобки, Правая = операторы
-        // TAB позиция = ` (Ё в русской раскладке)
-        // [ и ] доступны (Х и Ъ в русской раскладке)
-        // ============================================================
         sym_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
 // |   `   |    !    |   @    |   {    |    }    |    *    |       |   ^    |    &    |    <    |    >    |    ?    |    "      |
@@ -150,37 +133,24 @@
             >;
         };
 
-        // ============================================================
-        // 3 — NUM
-        // Левая: F1-F12
-        // Правая: классический цифровой блок
-        //   7 8 9
-        //   4 5 6
-        //   1 2 3
-        //     0
-        // ============================================================
         num_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
-// |   F1  |   F2   |   F3   |   F4   |   F5   |   F6    |       |  F7    |   F8   |   F9   |  F10   |  F11   |   F12    |
+// |   F1  |   F2   |   F3   |   F4   |   F5   |   F6    |       |   F7   |   7    |   8    |   9    |        |          |
 // |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
-// |       |         |        |        |         |         |       |        |   7    |   8    |   9    |        |          |
+// |   F7  |   F8   |   F9   |  F10   |  F11   |  F12    |       |        |   4    |   5    |   6    |        |          |
 // |-------+---------+--------+--------+---------+---------|       |--------+---------+---------+---------+----------+----------|
-// |       |         |        |        |         |         |       |        |   4    |   5    |   6    |        |          |
+// |       |         |        |        |         |         |       |        |   1    |   2    |   3    |        |          |
 // '----------------------------+---------+-------+----------+       |-------+---------+---------+--------------------------------'
-//                              |         |       |          |       |   0   |   1    |   2    |   3   |
+//                              |         |       |          |       |        |        |    0   |
 //                              '---------+-------+----------'       '--------+---------+---------'
             bindings = <
-  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6      &kp F7   &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
-  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &kp N7  &kp N8  &kp N9   &trans   &trans
-  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &kp N4  &kp N5  &kp N6   &trans   &trans
-                          &trans  &trans  &trans      &kp N0   &kp N1  &kp N2  
+  &kp F1  &kp F2  &kp F3  &kp F4   &kp F5   &kp F6      &trans  &kp N7  &kp N8  &kp N9  &trans  &trans
+  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12     &trans  &kp N4  &kp N5  &kp N6  &trans  &trans
+  &trans  &trans  &trans  &trans   &trans   &trans      &trans  &kp N1  &kp N2  &kp N3  &trans  &trans
+                          &trans   &trans   &trans      &trans  &trans  &kp N0
             >;
         };
 
-        // ============================================================
-        // 4 — ADJ (NAV + SYM одновременно)
-        // Bluetooth, reset, bootloader
-        // ============================================================
         adjust_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
 // | BOOT  |        |        |        |         |  NUMLK  |       |        |        |        |        |        |   BOOT   |
