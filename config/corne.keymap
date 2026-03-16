@@ -81,18 +81,18 @@
 
         default_layer {
 // .---------------------------------------------------------.       .------------------------------------------------------------.
-// | LSHFT |    Q    |    W   |    E    |    R    |    T    |       |    Y   |    U    |    I    |    O    |    P    |   BSPC   |
+// | TAB   |    Q    |    W   |    E    |    R    |    T    |       |    Y   |    U    |    I    |    O    |    P    |   BSPC   |
 // |-------+---------+--------+---------+---------+---------|       |--------+---------+---------+---------+---------+----------+
-// |  TAB  |  GUI/A  | ALT/S  | SHF/D   | CTL/F   |    G    |       |    H   | CTL/J   | SHF/K   | ALT/L   | GUI/;   |    '     |
+// | LSHFT |  GUI/A  | ALT/S  | SHF/D   | CTL/F   |    G    |       |    H   | CTL/J   | SHF/K   | ALT/L   | GUI/;   |    '     |
 // |-------+---------+--------+---------+---------+---------|       |--------+---------+---------+---------+---------+----------+
 // | LCTRL |    Z    |    X   |    C    |    V    |    B    |       |    N   |    M    |    ,    |    .    |    /    |  RSHFT   |
 // '----------------------------+---------+---------+--------+       |--------+---------+---------+--------------------------------'
 //                              |  LALT   |  NUM    |  SPC   |       |  RET   |   NAV   |   SYM   |
 //                              '---------+---------+--------'       '--------+---------+---------'
             bindings = <
-  &kp LSHFT   &kp Q          &kp W         &kp E          &kp R          &kp T          &kp Y      &kp U          &kp I          &kp O         &kp P             &kp BSPC
-  &kp TAB     &hm LGUI A     &hm LALT S    &hm LSHFT D    &hm LCTRL F    &kp G          &kp H      &hm RCTRL J    &hm RSHFT K    &hm RALT L    &hm RGUI SEMI     &kp SQT
-  &kp LCTRL   &kp Z          &kp X         &kp C          &kp V          &kp B          &kp N      &kp M          &kp COMMA      &kp DOT       &kp FSLH          &kp RSHFT
+  &kp TAB    &kp Q          &kp W         &kp E          &kp R          &kp T          &kp Y      &kp U          &kp I          &kp O         &kp P             &kp BSPC
+  &kp LSHFT  &hm LGUI A     &hm LALT S    &hm LSHFT D    &hm LCTRL F    &kp G          &kp H      &hm RCTRL J    &hm RSHFT K    &hm RALT L    &hm RGUI SEMI     &kp SQT
+  &kp LCTRL  &kp Z          &kp X         &kp C          &kp V          &kp B          &kp N      &kp M          &kp COMMA      &kp DOT       &kp FSLH          &kp RSHFT
                                             &kp LALT       &mo NUM        &kp SPACE      &kp ENTER  &mo NAV        &mo SYM
             >;
         };
