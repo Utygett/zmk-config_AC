@@ -91,24 +91,24 @@
 // .-----------------------------------------.   .-----------------------------------------.
 // | ` / ё | Q / й | W / ц | E / у | R / к | T / е |   | Y / н | U / г | I / ш | O / щ | P / з | [ / х |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-// |  ESC  | A / ф | S / ы | D / в | F / а | G / п |   | H / р | J / о | K / л | L / д | ; / ж | ' / э |
+// |  TAB  | A / ф | S / ы | D / в | F / а | G / п |   | H / р | J / о | K / л | L / д | ; / ж | ' / э |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
 // | LSHFT | Z / я | X / ч | C / с | V / м | B / и |   | N / т | M / ь | , / б | . / ю | / / . | ] / ъ |
 // '-----------------------+-------+-------+-------'   '-------+-------+-------+-----------------------'
-//                         | LALT  |  NAV  | SPACE |   | ENTER |  SYM  |  NUM  |
+//                         | LALT  |  NUM  | SPACE |   | ENTER |  NAV  |  SYM  |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
                 &kp GRAVE  &kp Q  &kp W  &kp E  &kp R  &kp T
                 &kp Y      &kp U  &kp I  &kp O  &kp P  &kp LBKT
 
-                &kp ESC    &kp A  &kp S  &kp D  &kp F  &kp G
+                &kp TAB    &kp A  &kp S  &kp D  &kp F  &kp G
                 &kp H      &kp J  &kp K  &kp L  &kp SEMI  &kp SQT
 
                 &kp LSHFT  &kp Z  &kp X  &kp C  &kp V  &kp B
                 &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp RBKT
 
-                &kp LALT  &mo NAV  &kp SPACE
-                &kp ENTER &mo SYM  &mo NUM
+                &kp LALT  &mo NUM  &kp SPACE
+                &kp ENTER &mo NAV  &mo SYM
             >;
         };
 
@@ -121,7 +121,7 @@
         // ============================================================
         nav_layer {
 // .-----------------------------------------------.   .-----------------------------------------------.
-// |       |       | HOME  |  UP   |  END  | PG UP |   |       | C+S+T |       |       |       |       |
+// |       |       | HOME  |  UP   |  END  | PG UP |   |  BSPC | C+S+T |       |       |       |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
 // |       |       | LEFT  | DOWN  | RIGHT | PG DN |   |       | C+S+V | C+S+C |       |       |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
@@ -134,7 +134,7 @@
                 &trans  &kp LC(LS(T))  &trans  &trans  &trans  &trans
 
                 &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
-                &trans  &kp LC(LS(V))  &kp LC(LS(C))  &trans  &trans  &trans
+                &kp BSPC  &kp LC(LS(V))  &kp LC(LS(C))  &trans  &trans  &trans
 
                 &trans  &trans  &trans  &trans  &trans  &trans
                 &kp INS &kp LS(INS)  &trans  &trans  &trans  &trans
