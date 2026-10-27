@@ -25,7 +25,7 @@
 / {
     behaviors {
         // Определение сохранено, но в текущих биндах не используется.
-        // Формат использования: &hm МОДИФИКАТОР БУКВА
+        // Формат: &hm МОДИФИКАТОР БУКВА
         // Например: &hm LCTRL F
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
@@ -39,8 +39,7 @@
     };
 
     // ----------------------------------------------------------------
-    // Комбо — одновременное нажатие двух клавиш.
-    // Позиции и действия сохранены.
+    // Комбо — позиции и действия сохранены из последнего конфига.
     // ----------------------------------------------------------------
     combos {
         compatible = "zmk,combos";
@@ -53,6 +52,7 @@
         };
 
         // R + T = Backspace
+        // Дополнительный Backspace также назначен на NAV + Y.
         combo_BS {
             timeout-ms = <50>;
             key-positions = <4 5>;
@@ -80,76 +80,72 @@
         // ============================================================
         // 0 — DEFAULT: основной слой
         //
-        // Все буквы — обычные нажатия, без home-row mods.
-        // GRAVE = ё, LBKT = х, RBKT = ъ в стандартной ЙЦУКЕН.
+        // Буквы — обычные нажатия, без home-row mods.
         //
-        // NAV: удерживать среднюю левую большую клавишу.
-        // SYM: удерживать среднюю правую большую клавишу.
-        // NUM: удерживать крайнюю правую большую клавишу.
+        // Нижний ряд слева направо:
+        // LALT, NUM, SPACE, ENTER, NAV, SYM.
+        //
+        // NUM — средняя левая большая клавиша.
+        // NAV — средняя правая большая клавиша.
+        // SYM — крайняя правая большая клавиша.
         // ============================================================
         default_layer {
-// .-----------------------------------------.   .-----------------------------------------.
+// .-----------------------------------------------.   .-----------------------------------------------.
 // | ` / ё | Q / й | W / ц | E / у | R / к | T / е |   | Y / н | U / г | I / ш | O / щ | P / з | [ / х |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-// |  ESC  | A / ф | S / ы | D / в | F / а | G / п |   | H / р | J / о | K / л | L / д | ; / ж | ' / э |
+// |  TAB  | A / ф | S / ы | D / в | F / а | G / п |   | H / р | J / о | K / л | L / д | ; / ж | ' / э |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
 // | LSHFT | Z / я | X / ч | C / с | V / м | B / и |   | N / т | M / ь | , / б | . / ю | / / . | ] / ъ |
 // '-----------------------+-------+-------+-------'   '-------+-------+-------+-----------------------'
-//                         | LALT  |  NAV  | SPACE |   | ENTER |  SYM  |  NUM  |
+//                         | LALT  |  NUM  | SPACE |   | ENTER |  NAV  |  SYM  |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
-                &kp GRAVE  &kp Q  &kp W  &kp E  &kp R  &kp T
-                &kp Y      &kp U  &kp I  &kp O  &kp P  &kp LBKT
-
-                &kp ESC    &kp A  &kp S  &kp D  &kp F  &kp G
-                &kp H      &kp J  &kp K  &kp L  &kp SEMI  &kp SQT
-
-                &kp LSHFT  &kp Z  &kp X  &kp C  &kp V  &kp B
-                &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp RBKT
-
-                &kp LALT  &mo NAV  &kp SPACE
-                &kp ENTER &mo SYM  &mo NUM
+  &kp GRAVE  &kp Q  &kp W  &kp E  &kp R  &kp T      &kp Y  &kp U  &kp I      &kp O    &kp P     &kp LBKT
+  &kp TAB    &kp A  &kp S  &kp D  &kp F  &kp G      &kp H  &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
+  &kp LSHFT  &kp Z  &kp X  &kp C  &kp V  &kp B      &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp RBKT
+                         &kp LALT  &mo NUM  &kp SPACE      &kp ENTER  &mo NAV  &mo SYM
             >;
         };
 
         // ============================================================
         // 1 — NAV: навигация
         //
-        // Удерживать NAV — среднюю левую большую клавишу.
-        // Удерживая NAV, нажать SYM для перехода на ADJ.
+        // Удерживать NAV — среднюю правую большую клавишу.
+        // NAV + Y / Н = Backspace.
+        //
+        // Для ADJ: удерживать NAV и нажать SYM
+        // (крайнюю правую большую клавишу).
+        //
         // Пустые клетки (&trans) пропускают действие нижнего слоя.
         // ============================================================
         nav_layer {
 // .-----------------------------------------------.   .-----------------------------------------------.
-// |       |       | HOME  |  UP   |  END  | PG UP |   |       | C+S+T |       |       |       |       |
+// |       |       | HOME  |  UP   |  END  | PG UP |   | BSPC  | C+S+T |       |       |       |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-// |       |       | LEFT  | DOWN  | RIGHT | PG DN |   |       | C+S+V | C+S+C |       |       |       |
+// |       | LCTRL | LEFT  | DOWN  | RIGHT | PG DN |   |       | C+S+V | C+S+C |       |       |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
 // |       |       |       |       |       |       |   |  INS  | S+INS |       |       |       |       |
 // '-----------------------+-------+-------+-------'   '-------+-------+-------+-----------------------'
-//                         |       |       |       |   |       |  ADJ  |       |
+//                         |       |       |       |   |       |       |  ADJ  |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
-                &trans  &trans  &kp HOME  &kp UP    &kp END    &kp PG_UP
-                &trans  &kp LC(LS(T))  &trans  &trans  &trans  &trans
-
-                &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
-                &trans  &kp LC(LS(V))  &kp LC(LS(C))  &trans  &trans  &trans
-
-                &trans  &trans  &trans  &trans  &trans  &trans
-                &kp INS &kp LS(INS)  &trans  &trans  &trans  &trans
-
-                &trans  &trans  &trans
-                &trans  &mo ADJ &trans
+  &trans  &trans     &kp HOME  &kp UP    &kp END    &kp PG_UP      &kp BSPC  &kp LC(LS(T))  &trans         &trans  &trans  &trans
+  &trans  &kp LCTRL  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN      &trans    &kp LC(LS(V))  &kp LC(LS(C))  &trans  &trans  &trans
+  &trans  &trans     &trans    &trans    &trans     &trans         &kp INS   &kp LS(INS)    &trans         &trans  &trans  &trans
+                               &trans    &trans     &trans         &trans    &trans         &mo ADJ
             >;
         };
 
         // ============================================================
         // 2 — SYM: символы
         //
-        // Удерживать SYM — среднюю правую большую клавишу.
-        // Удерживая SYM, нажать NAV для перехода на ADJ.
-        // На схеме указаны символы для английской раскладки ОС.
+        // Удерживать SYM — крайнюю правую большую клавишу.
+        //
+        // Для ADJ: удерживать SYM и нажать NAV
+        // (среднюю правую большую клавишу).
+        //
+        // На схеме символы для английской раскладки ОС.
+        // PIPE = вертикальная черта, BSLH = обратная косая черта.
         // ============================================================
         sym_layer {
 // .-----------------------------------------------.   .-----------------------------------------------.
@@ -159,51 +155,44 @@
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
 // |       |       |       | PIPE  | BSLH  |       |   |   -   |   _   |       |   .   |   /   |       |
 // '-----------------------+-------+-------+-------'   '-------+-------+-------+-----------------------'
-//                         |       |  ADJ  |       |   |       |       |       |
+//                         |       |       |       |   |       |  ADJ  |       |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
-                &kp TILDE  &kp EXCL  &kp AT    &kp LBRC  &kp RBRC  &kp STAR
-                &kp CARET  &kp AMPS  &kp LT    &kp GT    &kp QMARK &kp DQT
-
-                &trans    &kp HASH  &kp DLLR  &kp LPAR  &kp RPAR  &kp PRCNT
-                &kp EQUAL &kp PLUS  &kp LBKT  &kp RBKT  &kp SEMI  &kp GRAVE
-
-                &trans    &trans    &trans    &kp PIPE  &kp BSLH  &trans
-                &kp MINUS &kp UNDER &trans    &kp DOT   &kp FSLH  &trans
-
-                &trans  &mo ADJ  &trans
-                &trans  &trans   &trans
+  &kp TILDE  &kp EXCL  &kp AT    &kp LBRC  &kp RBRC  &kp STAR       &kp CARET  &kp AMPS   &kp LT     &kp GT    &kp QMARK  &kp DQT
+  &trans     &kp HASH  &kp DLLR  &kp LPAR  &kp RPAR  &kp PRCNT      &kp EQUAL  &kp PLUS   &kp LBKT   &kp RBKT  &kp SEMI   &kp GRAVE
+  &trans     &trans    &trans    &kp PIPE  &kp BSLH  &trans         &kp MINUS  &kp UNDER  &trans     &kp DOT   &kp FSLH   &trans
+                                 &trans    &trans    &trans         &trans     &mo ADJ    &trans
             >;
         };
 
         // ============================================================
-        // 3 — NUM: цифры и F-клавиши
+        // 3 — NUM: F-клавиши слева, цифровой блок справа
         //
-        // Удерживать NUM — крайнюю правую большую клавишу.
-        // Бинды сохранены: цифра 3 в этом варианте не назначена.
+        // Удерживать NUM — среднюю левую большую клавишу.
+        //
+        // U = 7, I = 8, O = 9
+        // J = 4, K = 5, L = 6
+        // M = 1, COMMA = 2, DOT = 3
+        // ENTER = 0
+        //
+        // Операторы сохранены на прежних физических позициях:
+        // H = плюс, N = минус, SEMI = умножение.
         // ============================================================
         num_layer {
 // .-----------------------------------------------.   .-----------------------------------------------.
-// |  F1   |  F2   |  F3   |  F4   |  F5   |  F6   |   |  F7   |  F8   |  F9   |  F10  |  F11  |  F12  |
+// |  F1   |  F2   |  F3   |  F4   |  F5   |  F6   |   |       |   7   |   8   |   9   |       |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-// |       |       |       |       |       |       |   |   +   |   7   |   8   |   9   |   *   |       |
+// |  F7   |  F8   |  F9   |  F10  |  F11  |  F12  |   |   +   |   4   |   5   |   6   |   *   |       |
 // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-// |       |       |       |       |       |       |   |   -   |   4   |   5   |   6   |       |       |
+// |       |       |       |       |       |       |   |   -   |   1   |   2   |   3   |       |       |
 // '-----------------------+-------+-------+-------'   '-------+-------+-------+-----------------------'
-//                         |       |       |       |   |   0   |   1   |   2   |
+//                         |       |       |       |   |   0   |       |       |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
-                &kp F1  &kp F2  &kp F3  &kp F4  &kp F5   &kp F6
-                &kp F7  &kp F8  &kp F9  &kp F10 &kp F11  &kp F12
-
-                &trans  &trans  &trans  &trans  &trans   &trans
-                &kp PLUS &kp N7 &kp N8 &kp N9  &kp STAR &trans
-
-                &trans  &trans  &trans  &trans  &trans   &trans
-                &kp MINUS &kp N4 &kp N5 &kp N6 &trans   &trans
-
-                &trans  &trans  &trans
-                &kp N0  &kp N1  &kp N2
+  &kp F1  &kp F2  &kp F3  &kp F4   &kp F5   &kp F6       &trans     &kp N7  &kp N8  &kp N9  &trans    &trans
+  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12      &kp PLUS   &kp N4  &kp N5  &kp N6  &kp STAR  &trans
+  &trans  &trans  &trans  &trans   &trans   &trans        &kp MINUS  &kp N1  &kp N2  &kp N3  &trans    &trans
+                          &trans   &trans   &trans        &kp N0     &trans  &trans
             >;
         };
 
@@ -211,20 +200,17 @@
         // 4 — ADJ: Bluetooth и обслуживание
         //
         // Как открыть:
-        // 1. Зажать NAV — среднюю левую большую клавишу.
-        // 2. Не отпуская NAV, зажать SYM — среднюю правую.
+        // 1. Зажать NAV — среднюю правую большую клавишу.
+        // 2. Не отпуская NAV, зажать SYM — крайнюю правую.
         //
-        // BT1..BT5 — выбор профиля, а не очистка сопряжения.
-        // BT CLR — очистить сопряжение выбранного профиля.
+        // BT1..BT5 — выбор Bluetooth-профиля.
+        // BT CLR — очистка сопряжения выбранного профиля.
         //
-        // Выбор первого профиля:
-        // удерживать NAV + SYM, нажать физическую A / Ф.
+        // NAV + SYM + A / Ф = выбрать первый профиль.
+        // NAV + SYM + левый Shift = очистить выбранный профиль.
         //
-        // Очистка выбранного профиля:
-        // удерживать NAV + SYM, нажать физический левый Shift.
-        //
-        // BOOT  — перейти в загрузчик для прошивки.
-        // RESET — перезагрузить контроллер.
+        // BOOT  — загрузчик для прошивки.
+        // RESET — перезагрузка контроллера.
         // ============================================================
         adjust_layer {
 // .-----------------------------------------------.   .-----------------------------------------------.
@@ -237,28 +223,10 @@
 //                         |       |       |       |   |       |       |       |
 //                         '-------+-------+-------'   '-------+-------+-------'
             bindings = <
-                &bootloader  &trans  &trans  &trans  &trans  &kp KP_NUM
-                &trans  &trans  &trans  &trans  &trans  &bootloader
-
-                &sys_reset
-                &bt BT_SEL 0
-                &bt BT_SEL 1
-                &bt BT_SEL 2
-                &bt BT_SEL 3
-                &bt BT_SEL 4
-
-                &bt BT_SEL 4
-                &bt BT_SEL 3
-                &bt BT_SEL 2
-                &bt BT_SEL 1
-                &bt BT_SEL 0
-                &sys_reset
-
-                &bt BT_CLR  &trans  &trans  &trans  &trans  &trans
-                &trans      &trans  &trans  &trans  &trans  &bt BT_CLR
-
-                &trans  &trans  &trans
-                &trans  &trans  &trans
+  &bootloader  &trans        &trans        &trans        &trans        &kp KP_NUM      &trans        &trans        &trans        &trans        &trans        &bootloader
+  &sys_reset   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &bt BT_SEL 4  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &sys_reset
+  &bt BT_CLR   &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans        &bt BT_CLR
+                                           &trans        &trans        &trans          &trans        &trans        &trans
             >;
         };
     };
